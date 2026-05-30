@@ -62,6 +62,7 @@ function Report() {
   const issueName = ISSUE_NAMES[issueId];
   const apiKey = process.env.REACT_APP_ANTHROPIC_API_KEY;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     generateReport();
     setTimeout(() => {
