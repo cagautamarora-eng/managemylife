@@ -68,7 +68,7 @@ function Report() {
       setProducts(PRODUCTS[issueId] || []);
       setLoadingProducts(false);
     }, 8000);
-  }, []);
+  }, [issueId]);
 
   const generateReport = async () => {
     const prompt = `You are a wellness expert. Generate a detailed personalized wellness report in Hinglish (Hindi + English mix).
