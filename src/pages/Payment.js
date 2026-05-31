@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabase';
 
 const ISSUES = {
   skin: { icon: '✨', title: 'Skin Problems' },
@@ -15,15 +16,40 @@ const ISSUES = {
 function Payment() {
   const navigate = useNavigate();
   const [paying, setPaying] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const issueId = localStorage.getItem('mml_issue') || 'skin';
   const issue = ISSUES[issueId];
+  const answers = JSON.parse(localStorage.getItem('mml_answers') || '{}');
 
-  const handlePay = () => {
+  const handlePay = async () => {
+    if (!name || !email || !phone) {
+      alert('Apna naam, email aur phone number fill karo!');
+      return;
+    }
     setPaying(true);
-    setTimeout(() => {
-      localStorage.setItem('mml_paid', 'true');
-      navigate('/report');
-    }, 2000);
+    try {
+      const { data: userData } = await supabase
+        .from('users')
+        .insert([{ name, email, phone, issue: issueId }])
+        .select();
+
+      if (userData && userData[0]) {
+        await supabase.from('reports').insert([{
+          user_id: userData[0].id,
+          issue: issueId,
+          answers: answers,
+          payment_status: 'paid',
+          amount: 399
+        }]);
+        localStorage.setItem('mml_paid', 'true');
+        localStorage.setItem('mml_user_id', userData[0].id);
+      }
+    } catch (err) {
+      console.error('Supabase error:', err);
+    }
+    setTimeout(() => navigate('/report'), 1500);
   };
 
   return (
@@ -38,6 +64,12 @@ function Payment() {
               <div style={styles.issueName}>{issue.title} Report</div>
               <div style={styles.issueDesc}>AI-powered personalized wellness report</div>
             </div>
+          </div>
+          <div style={styles.divider} />
+          <div style={styles.formSection}>
+            <input style={styles.input} placeholder="Aapka Naam *" value={name} onChange={e => setName(e.target.value)} />
+            <input style={styles.input} placeholder="Email Address *" value={email} onChange={e => setEmail(e.target.value)} />
+            <input style={styles.input} placeholder="Phone Number *" value={phone} onChange={e => setPhone(e.target.value)} />
           </div>
           <div style={styles.divider} />
           <div style={styles.includesTitle}>Report mein kya milega:</div>
@@ -71,6 +103,8 @@ const styles = {
   issueName: { fontSize: 18, fontWeight: 700, color: '#1A1A1A', fontFamily: 'sans-serif' },
   issueDesc: { fontSize: 13, color: '#888', fontFamily: 'sans-serif', marginTop: 4 },
   divider: { height: 1, background: '#F0F0F0', margin: '20px 0' },
+  formSection: { display: 'flex', flexDirection: 'column', gap: 12 },
+  input: { border: '1.5px solid #E0E0E0', borderRadius: 12, padding: '14px 16px', fontSize: 15, fontFamily: 'sans-serif', outline: 'none', width: '100%', boxSizing: 'border-box' },
   includesTitle: { fontSize: 14, fontWeight: 700, color: '#555', marginBottom: 12, fontFamily: 'sans-serif' },
   includeItem: { fontSize: 14, color: '#444', padding: '6px 0', fontFamily: 'sans-serif' },
   priceRow: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 },
