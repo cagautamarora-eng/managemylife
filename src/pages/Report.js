@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PRODUCTS = {
@@ -50,40 +50,151 @@ const ISSUE_NAMES = {
   sleep: 'Sleep Issues', nutrition: 'Nutrition & Diet',
 };
 
+const LOADING_STEPS = [
+  { text: 'Analyzing your answers...', icon: '🔍', color: '#7B5EA7' },
+  { text: 'Consulting 500+ expert opinions...', icon: '👨‍⚕️', color: '#8B5CF6' },
+  { text: 'Searching latest research papers...', icon: '📚', color: '#EC4899' },
+  { text: 'Finding best wellness solutions...', icon: '💡', color: '#7B5EA7' },
+  { text: 'Cross-referencing medical databases...', icon: '🏥', color: '#8B5CF6' },
+  { text: 'Personalizing your report...', icon: '✨', color: '#EC4899' },
+  { text: 'Almost ready...', icon: '🎯', color: '#7B5EA7' },
+];
+
+function OpticalIllusion() {
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+  const angleRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const size = 320;
+    canvas.width = size;
+    canvas.height = size;
+    const cx = size / 2;
+    const cy = size / 2;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, size, size);
+      angleRef.current += 0.008;
+      const angle = angleRef.current;
+
+      // Draw concentric rotating rings
+      const rings = 12;
+      for (let i = rings; i >= 1; i--) {
+        const radius = (i / rings) * 140;
+        const segments = 8 + i * 2;
+        const rotOffset = i % 2 === 0 ? angle * (1 + i * 0.1) : -angle * (1 + i * 0.1);
+
+        for (let j = 0; j < segments; j++) {
+          const startAngle = (j / segments) * Math.PI * 2 + rotOffset;
+          const endAngle = ((j + 0.5) / segments) * Math.PI * 2 + rotOffset;
+
+          const hue = (i * 25 + angle * 40) % 360;
+          const lightness = 45 + i * 2;
+
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = `hsla(${hue}, 70%, ${lightness}%, 0.85)`;
+          ctx.fill();
+        }
+
+        // Inner ring border
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255,255,255,0.15)`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Center glow
+      const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
+      gradient.addColorStop(0, 'rgba(255,255,255,0.95)');
+      gradient.addColorStop(0.5, 'rgba(139,92,246,0.6)');
+      gradient.addColorStop(1, 'rgba(139,92,246,0)');
+      ctx.beginPath();
+      ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Center brain icon text
+      ctx.font = 'bold 28px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#7B5EA7';
+      ctx.fillText('🧠', cx, cy);
+
+      animRef.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(animRef.current);
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        borderRadius: '50%',
+        boxShadow: '0 0 60px rgba(123,94,167,0.4), 0 0 120px rgba(139,92,246,0.2)',
+      }}
+    />
+  );
+}
+
 function Report() {
   const navigate = useNavigate();
   const [report, setReport] = useState('');
   const [generating, setGenerating] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [products, setProducts] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const issueId = localStorage.getItem('mml_issue') || 'skin';
   const answers = JSON.parse(localStorage.getItem('mml_answers') || '{}');
   const issueName = ISSUE_NAMES[issueId];
   const apiKey = process.env.REACT_APP_ANTHROPIC_API_KEY;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    // Cycle through loading steps
+    const stepInterval = setInterval(() => {
+      setCurrentStep(prev => (prev + 1) % LOADING_STEPS.length);
+    }, 2000);
+
+    // Progress bar
+    const progressInterval = setInterval(() => {
+      setProgress(prev => prev < 95 ? prev + 1 : prev);
+    }, 150);
+
     generateReport();
+
     setTimeout(() => {
       setProducts(PRODUCTS[issueId] || []);
       setLoadingProducts(false);
     }, 8000);
-  }, [issueId]);
+
+    return () => {
+      clearInterval(stepInterval);
+      clearInterval(progressInterval);
+    };
+  }, []);
 
   const generateReport = async () => {
     const prompt = `You are a wellness expert. Generate a detailed personalized wellness report in Hinglish (Hindi + English mix).
 
 Issue: ${issueName}
-User Answers: ${JSON.stringify(answers, null, 2)}
+User Answers: ${JSON.stringify(answers)}
 
 Generate report with these sections:
-1. Aapki Current Situation
-2. Root Causes
-3. Personalized Action Plan (5-7 steps)
-4. Lifestyle Recommendations
-5. Kya Avoid Karein
-6. Expert Tip
+1. 📊 Aapki Current Situation
+2. 🔍 Root Causes  
+3. 🌟 Personalized Action Plan (5-7 steps)
+4. 🍎 Lifestyle Recommendations
+5. ⚠️ Kya Avoid Karein
+6. 💡 Expert Tip
 
 Keep it warm, practical and encouraging. Use emojis. Write in simple Hinglish.`;
 
@@ -106,85 +217,141 @@ Keep it warm, practical and encouraging. Use emojis. Write in simple Hinglish.`;
       const text = data.content?.map(b => b.text || '').join('\n') || 'Report generate nahi ho saki.';
       setReport(text);
     } catch (err) {
-      setReport('Report generate karne mein error aayi: ' + err.message);
+      setReport('Error: ' + err.message);
     }
+    setProgress(100);
     setGenerating(false);
   };
 
+  const step = LOADING_STEPS[currentStep];
+
   return (
-    <div style={styles.container}>
-      <div style={styles.inner}>
-        <div style={styles.topBar}>
-          <h2 style={styles.title}>Aapki Personalized Report</h2>
-          <button style={styles.back} onClick={() => { localStorage.clear(); navigate('/'); }}>New Report</button>
-        </div>
-        <div style={styles.reportCard}>
-          {generating ? (
-            <div style={styles.loading}>
-              <div style={styles.spinner} />
-              <p style={styles.loadingText}>AI aapke liye report taiyaar kar raha hai...</p>
-              <p style={styles.loadingSmall}>10-15 seconds lagenge</p>
+    <div className="min-h-screen bg-[#FAF7FF] font-sans">
+
+      {generating ? (
+        // OPTICAL ILLUSION LOADING SCREEN
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
+
+          {/* Background gradient blobs */}
+          <div className="absolute top-0 left-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-200 rounded-full blur-3xl opacity-30 translate-x-1/2 translate-y-1/2" />
+
+          {/* Header */}
+          <div className="text-center mb-10 relative z-10">
+            <div className="text-4xl font-black text-gray-900 mb-2">
+              Generating Your Report
             </div>
-          ) : (
-            <div style={styles.reportContent}>
-              {report.split('\n').map((line, i) => {
-                if (!line.trim()) return <br key={i} />;
-                if (line.match(/^[0-9]+\./)) return <h4 key={i} style={styles.reportH}>{line}</h4>;
-                if (line.startsWith('##')) return <h4 key={i} style={styles.reportH}>{line.replace(/^#+\s*/, '')}</h4>;
-                return <p key={i} style={styles.reportP}>{line}</p>;
-              })}
+            <div className="text-gray-400 text-lg">Powered by LifeAI • Expert-backed insights</div>
+          </div>
+
+          {/* Optical Illusion */}
+          <div className="relative z-10 mb-10">
+            <OpticalIllusion />
+          </div>
+
+          {/* Animated step text */}
+          <div className="relative z-10 text-center mb-8">
+            <div
+              className="flex items-center justify-center gap-3 text-xl font-bold mb-2 transition-all duration-500"
+              style={{ color: step.color }}
+            >
+              <span className="text-2xl">{step.icon}</span>
+              <span>{step.text}</span>
             </div>
-          )}
-        </div>
-        <h3 style={styles.productTitle}>
-          {loadingProducts ? 'Best products dhundh rahe hain...' : 'Recommended Products'}
-        </h3>
-        {loadingProducts ? (
-          <div style={styles.loading}><div style={styles.spinner} /></div>
-        ) : (
-          <div style={styles.productGrid}>
-            {products.map((p, i) => (
-              <div key={i} style={styles.productCard}>
-                <div style={styles.productTag}>{p.tag}</div>
-                <div style={styles.productName}>{p.name}</div>
-                <div style={styles.productRating}>⭐ {p.rating}/5</div>
-                <div style={styles.productPrice}>₹{p.price}</div>
-                <button style={styles.buyBtn}>Buy Now →</button>
+            <div className="text-gray-400 text-sm">This may take 10-15 seconds</div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="relative z-10 w-full max-w-md">
+            <div className="flex justify-between text-xs text-gray-400 mb-2">
+              <span>Analyzing...</span>
+              <span>{progress}%</span>
+            </div>
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-300"
+                style={{
+                  width: `${progress}%`,
+                  background: 'linear-gradient(90deg, #7B5EA7, #8B5CF6, #EC4899)'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Steps indicator */}
+          <div className="relative z-10 mt-8 flex gap-3 flex-wrap justify-center max-w-lg">
+            {LOADING_STEPS.map((s, i) => (
+              <div
+                key={i}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                  i === currentStep
+                    ? 'bg-purple-100 text-purple-700 scale-105'
+                    : i < currentStep
+                    ? 'bg-green-100 text-green-600'
+                    : 'bg-gray-100 text-gray-400'
+                }`}
+              >
+                <span>{i < currentStep ? '✓' : s.icon}</span>
+                <span>{s.text.split('...')[0]}</span>
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        // REPORT CONTENT
+        <div className="max-w-4xl mx-auto px-6 py-10">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-black text-gray-900">🎯 Aapki Personalized Report</h1>
+            <button
+              onClick={() => { localStorage.clear(); navigate('/'); }}
+              className="bg-white border border-purple-200 text-purple-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-50 transition-all"
+            >
+              ← New Report
+            </button>
+          </div>
+
+          {/* Report Card */}
+          <div className="bg-white rounded-3xl p-8 shadow-sm border border-purple-50 mb-8">
+            <div className="prose max-w-none">
+              {report.split('\n').map((line, i) => {
+                if (!line.trim()) return <br key={i} />;
+                if (line.match(/^[0-9]+\./)) return <h4 key={i} className="text-lg font-bold text-purple-600 mt-6 mb-2">{line}</h4>;
+                if (line.startsWith('##')) return <h4 key={i} className="text-lg font-bold text-purple-600 mt-6 mb-2">{line.replace(/^#+\s*/, '')}</h4>;
+                if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="font-bold text-gray-800">{line.replace(/\*\*/g, '')}</p>;
+                if (line.startsWith('- ') || line.startsWith('• ')) return <p key={i} className="text-gray-600 pl-4 border-l-2 border-purple-200 my-1">{line}</p>;
+                return <p key={i} className="text-gray-600 leading-relaxed my-1">{line}</p>;
+              })}
+            </div>
+          </div>
+
+          {/* Products */}
+          <h2 className="text-2xl font-black text-gray-900 mb-6">
+            {loadingProducts ? '🔍 Aapke liye products dhundh rahe hain...' : '🛍️ Recommended Products'}
+          </h2>
+
+          {loadingProducts ? (
+            <div className="flex justify-center py-10">
+              <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {products.map((p, i) => (
+                <div key={i} className="bg-white rounded-3xl p-6 border border-purple-50 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
+                  <div className="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full mb-4">{p.tag}</div>
+                  <div className="text-base font-bold text-gray-800 mb-2 leading-tight">{p.name}</div>
+                  <div className="text-yellow-500 text-sm mb-2">⭐ {p.rating}/5</div>
+                  <div className="text-2xl font-black text-gray-900 mb-4">₹{p.price}</div>
+                  <button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-2xl font-bold hover:shadow-lg transition-all">
+                    Buy Now →
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
-const styles = {
-  container: { minHeight: '100vh', background: 'linear-gradient(135deg, #FDFBF7, #F5F0E8)', padding: '20px 16px 60px', fontFamily: 'Georgia, serif' },
-  inner: { maxWidth: 800, margin: '0 auto' },
-  topBar: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  title: { fontSize: 22, fontWeight: 700, color: '#1A1A1A' },
-  back: { background: 'none', border: '1px solid #ddd', borderRadius: 8, padding: '8px 16px', fontSize: 13, cursor: 'pointer', color: '#666', fontFamily: 'sans-serif' },
-  reportCard: { background: '#fff', borderRadius: 24, padding: '32px 28px', boxShadow: '0 4px 32px rgba(0,0,0,0.08)', marginBottom: 32 },
-  loading: { textAlign: 'center', padding: '40px 0' },
-  spinner: { width: 40, height: 40, border: '3px solid #F0F0F0', borderTop: '3px solid #E76F51', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto' },
-  loadingText: { fontSize: 16, color: '#555', fontFamily: 'sans-serif', margin: '16px 0 8px' },
-  loadingSmall: { fontSize: 13, color: '#aaa', fontFamily: 'sans-serif' },
-  reportContent: { lineHeight: 1.8 },
-  reportH: { fontSize: 16, fontWeight: 700, color: '#E76F51', margin: '20px 0 8px', fontFamily: 'sans-serif' },
-  reportP: { color: '#444', margin: '6px 0', fontSize: 15, fontFamily: 'sans-serif' },
-  productTitle: { fontSize: 20, fontWeight: 700, color: '#1A1A1A', marginBottom: 20, fontFamily: 'sans-serif' },
-  productGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 },
-  productCard: { background: '#fff', borderRadius: 18, padding: '24px 20px', boxShadow: '0 2px 16px rgba(0,0,0,0.07)' },
-  productTag: { background: '#E76F51', color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 6, padding: '3px 8px', display: 'inline-block', marginBottom: 12, fontFamily: 'sans-serif' },
-  productName: { fontSize: 14, fontWeight: 700, color: '#1A1A1A', marginBottom: 8, lineHeight: 1.4, fontFamily: 'sans-serif' },
-  productRating: { fontSize: 13, color: '#F4A261', marginBottom: 8, fontFamily: 'sans-serif' },
-  productPrice: { fontSize: 22, fontWeight: 800, color: '#1A1A1A', marginBottom: 16, fontFamily: 'sans-serif' },
-  buyBtn: { width: '100%', background: 'linear-gradient(135deg, #E76F51, #F4A261)', border: 'none', borderRadius: 10, padding: '11px', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'sans-serif' },
-};
-
-const styleEl = document.createElement('style');
-styleEl.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
-document.head.appendChild(styleEl);
 
 export default Report;
