@@ -210,25 +210,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="px-8 lg:px-16 py-10 max-w-[1600px] mx-auto">
-        <h2 className="text-center text-4xl font-black text-gray-900 mb-3">How It Works?</h2>
-        <p className="text-center text-gray-400 mb-10 text-lg">Simple 4-step process to transform your life</p>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {steps.map((s, i) => (
-            <div key={i} className="relative group">
-              <div className="bg-white rounded-3xl p-8 border border-purple-50 shadow-sm hover:shadow-xl hover:shadow-purple-100 hover:-translate-y-2 transition-all duration-300">
-                <div className={`w-12 h-12 ${s.color} rounded-2xl text-white text-lg font-black flex items-center justify-center mb-5 shadow-lg`}>{s.n}</div>
-                <div className="text-4xl mb-4">{s.icon}</div>
-                <div className="text-lg font-black text-gray-900 mb-2">{s.title}</div>
-                <div className="text-sm text-gray-400 leading-relaxed">{s.sub}</div>
-              </div>
-              {i < 3 && <ChevronRight className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 text-purple-200 z-10" />}
-            </div>
-          ))}
-        </div>
-      </section>
-
+      
       {/* Issues */}
       <section className="px-8 lg:px-16 py-10 bg-white max-w-[1600px] mx-auto">
         <div className="mb-8">
@@ -269,6 +251,25 @@ export default function Home() {
               <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{issue.emoji}</div>
               <div className="text-sm font-black text-gray-800 mb-1">{issue.label}</div>
               <div className="text-xs text-gray-400">{issue.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+{/* How It Works */}
+      <section className="px-8 lg:px-16 py-10 max-w-[1600px] mx-auto">
+        <h2 className="text-center text-4xl font-black text-gray-900 mb-3">How It Works?</h2>
+        <p className="text-center text-gray-400 mb-10 text-lg">Simple 4-step process to transform your life</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {steps.map((s, i) => (
+            <div key={i} className="relative group">
+              <div className="bg-white rounded-3xl p-8 border border-purple-50 shadow-sm hover:shadow-xl hover:shadow-purple-100 hover:-translate-y-2 transition-all duration-300">
+                <div className={`w-12 h-12 ${s.color} rounded-2xl text-white text-lg font-black flex items-center justify-center mb-5 shadow-lg`}>{s.n}</div>
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <div className="text-lg font-black text-gray-900 mb-2">{s.title}</div>
+                <div className="text-sm text-gray-400 leading-relaxed">{s.sub}</div>
+              </div>
+              {i < 3 && <ChevronRight className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 text-purple-200 z-10" />}
             </div>
           ))}
         </div>
