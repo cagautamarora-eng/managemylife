@@ -19,14 +19,25 @@ const TRANSLATIONS = {
   en: { badge: "India's #1 AI Wellness Guide", title1: 'Manage Your Life,', title2: 'The Smart Way', sub: 'From skin to stress — choose your problem, get AI-powered insights, personalized reports and discover the best products for you.', cta: 'Choose Your Problem →' },
   hi: { badge: "भारत का #1 AI वेलनेस गाइड", title1: 'अपनी Life को', title2: 'Smart तरीके से', sub: 'Skin से stress तक — अपनी problem choose करो, AI से personalized report पाओ।', cta: 'अपनी Problem Choose करो →' },
   bn: { badge: "ভারতের #1 AI ওয়েলনেস গাইড", title1: 'আপনার জীবন পরিচালনা করুন,', title2: 'স্মার্ট উপায়ে', sub: 'ত্বক থেকে স্ট্রেস — আপনার সমস্যা বেছে নিন, AI-চালিত insights পান।', cta: 'আপনার সমস্যা বেছে নিন →' },
-  te: { badge: "భారతదేశం #1 AI వెల్నెస్ గైడ్", title1: 'మీ జీవితాన్ని నిర్వహించండి,', title2: 'స్మార్ట్ మార్గంలో', sub: 'చర్మం నుండి ఒత్తిడి వరకు — మీ సమస్యను ఎంచుకోండి।', cta: 'మీ సమస్యను ఎంచుకోండి →' },
-  mr: { badge: "भारताचा #1 AI वेलनेस गाइड", title1: 'तुमचे आयुष्य व्यवस्थापित करा,', title2: 'स्मार्ट मार्गाने', sub: 'त्वचेपासून तणावापर्यंत — तुमची समस्या निवडा।', cta: 'तुमची समस्या निवडा →' },
+  te: { badge: "భారతదేశం #1 AI వెల్నెస్ గైడ్", title1: 'మీ జీవితాన్ని నిర్వహించండి,', title2: 'స్మార్ట్ మార్గంలో', sub: 'చర్మం నుండి ఒత్తిడి వరకు — మీ సమస్యను ఎంచుకోండి, AI insights పొందండి।', cta: 'మీ సమస్యను ఎంచుకోండి →' },
+  mr: { badge: "भारताचा #1 AI वेलनेस गाइड", title1: 'तुमचे आयुष्य व्यवस्थापित करा,', title2: 'स्मार्ट मार्गाने', sub: 'त्वचेपासून तणावापर्यंत — तुमची समस्या निवडा, AI insights मिळवा।', cta: 'तुमची समस्या निवडा →' },
   ta: { badge: "இந்தியாவின் #1 AI வெல்னஸ் கைடு", title1: 'உங்கள் வாழ்க்கையை நிர்வகிக்கவும்,', title2: 'சிறந்த வழியில்', sub: 'தோல் முதல் மன அழுத்தம் வரை — உங்கள் பிரச்சனையை தேர்ந்தெடுங்கள்।', cta: 'உங்கள் பிரச்சனையை தேர்ந்தெடுங்கள் →' },
-  gu: { badge: "ભારતનો #1 AI વેલનેસ ગાઇડ", title1: 'તમારું જીવન મેનેજ કરો,', title2: 'સ્માર્ટ રીતે', sub: 'ત્વચાથી તણાવ સુધી — તમારી સમસ્યા પસંદ કરો।', cta: 'તમારી સમસ્યા પસંદ કરો →' },
-  kn: { badge: "ಭಾರತದ #1 AI ವೆಲ್ನೆಸ್ ಗೈಡ್", title1: 'ನಿಮ್ಮ ಜೀವನವನ್ನು ನಿರ್ವಹಿಸಿ,', title2: 'ಸ್ಮಾರ್ಟ್ ರೀತಿಯಲ್ಲಿ', sub: 'ಚರ್ಮದಿಂದ ಒತ್ತಡದವರೆಗೆ — ನಿಮ್ಮ ಸಮಸ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ।', cta: 'ನಿಮ್ಮ ಸಮಸ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ →' },
-  ml: { badge: "ഇന്ത്യയുടെ #1 AI വെൽനസ് ഗൈഡ്", title1: 'നിങ്ങളുടെ ജീവിതം കൈകാര്യം ചെയ്യൂ,', title2: 'സ്മാർട്ട് രീതിയിൽ', sub: 'ചർമ്മം മുതൽ സ്ട്രെസ് വരെ — നിങ്ങളുടെ പ്രശ്നം തിരഞ്ഞെടുക്കൂ।', cta: 'നിങ്ങളുടെ പ്രശ്നം തിരഞ്ഞെടുക്കൂ →' },
-  pa: { badge: "ਭਾਰਤ ਦਾ #1 AI ਵੈਲਨੇਸ ਗਾਈਡ", title1: 'ਆਪਣੀ ਜ਼ਿੰਦਗੀ ਸੰਭਾਲੋ,', title2: 'ਸਮਾਰਟ ਤਰੀਕੇ ਨਾਲ', sub: 'ਚਮੜੀ ਤੋਂ ਤਣਾਅ ਤੱਕ — ਆਪਣੀ ਸਮੱਸਿਆ ਚੁਣੋ।', cta: 'ਆਪਣੀ ਸਮੱਸਿਆ ਚੁਣੋ →' },
+  gu: { badge: "ભારતનો #1 AI વેલનેસ ગાઇડ", title1: 'તમારું જીવન મેનેજ કરો,', title2: 'સ્માર્ટ રીતે', sub: 'ત્વચાથી તણાવ સુધી — તમારી સમસ્યા પસંદ કરો, AI insights મેળવો।', cta: 'તમારી સમસ્યા પસંદ કરો →' },
+  kn: { badge: "ಭಾರತದ #1 AI ವೆಲ್ನೆಸ್ ಗೈಡ್", title1: 'ನಿಮ್ಮ ಜೀವನವನ್ನು ನಿರ್ವಹಿಸಿ,', title2: 'ಸ್ಮಾರ್ಟ್ ರೀತಿಯಲ್ಲಿ', sub: 'ಚರ್ಮದಿಂದ ಒತ್ತಡದವರೆಗೆ — ನಿಮ್ಮ ಸಮಸ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ, AI insights ಪಡೆಯಿರಿ।', cta: 'ನಿಮ್ಮ ಸಮಸ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ →' },
+  ml: { badge: "ഇന്ത്യയുടെ #1 AI വെൽനസ് ഗൈഡ്", title1: 'നിങ്ങളുടെ ജീവിതം കൈകാര്യം ചെയ്യൂ,', title2: 'സ്മാർട്ട് രീതിയിൽ', sub: 'ചർമ്മം മുതൽ സ്ട്രെസ് വരെ — നിങ്ങളുടെ പ്രശ്നം തിരഞ്ഞെടുക്കൂ, AI insights നേടൂ।', cta: 'നിങ്ങളുടെ പ്രശ്നം തിരഞ്ഞെടുക്കൂ →' },
+  pa: { badge: "ਭਾਰਤ ਦਾ #1 AI ਵੈਲਨੇਸ ਗਾਈਡ", title1: 'ਆਪਣੀ ਜ਼ਿੰਦਗੀ ਸੰਭਾਲੋ,', title2: 'ਸਮਾਰਟ ਤਰੀਕੇ ਨਾਲ', sub: 'ਚਮੜੀ ਤੋਂ ਤਣਾਅ ਤੱਕ — ਆਪਣੀ ਸਮੱਸਿਆ ਚੁਣੋ, AI insights ਪਾਓ।', cta: 'ਆਪਣੀ ਸਮੱਸਿਆ ਚੁਣੋ →' },
 };
+
+const issues = [
+  { slug: 'skin', icon: Sparkles, label: 'Skin Problems', from: 'from-purple-50', to: 'to-purple-100', iconColor: 'text-purple-500', border: 'border-purple-200' },
+  { slug: 'hair', icon: Leaf, label: 'Hair Fall', from: 'from-green-50', to: 'to-green-100', iconColor: 'text-green-500', border: 'border-green-200' },
+  { slug: 'stress', icon: Brain, label: 'Stress & Anxiety', from: 'from-orange-50', to: 'to-orange-100', iconColor: 'text-orange-500', border: 'border-orange-200' },
+  { slug: 'sleep', icon: Moon, label: 'Sleep Issues', from: 'from-blue-50', to: 'to-blue-100', iconColor: 'text-blue-500', border: 'border-blue-200' },
+  { slug: 'weight', icon: Scale, label: 'Weight Management', from: 'from-pink-50', to: 'to-pink-100', iconColor: 'text-pink-500', border: 'border-pink-200' },
+  { slug: 'nutrition', icon: Flame, label: 'Digestion & Gut', from: 'from-yellow-50', to: 'to-yellow-100', iconColor: 'text-yellow-500', border: 'border-yellow-200' },
+  { slug: 'time', icon: Zap, label: 'Energy & Fitness', from: 'from-teal-50', to: 'to-teal-100', iconColor: 'text-teal-500', border: 'border-teal-200' },
+  { slug: 'astrology', icon: Star, label: 'Astrology & Life', from: 'from-violet-50', to: 'to-violet-100', iconColor: 'text-violet-500', border: 'border-violet-200' },
+];
 
 const floatingCards = [
   { icon: Brain, label: 'AI Insights', color: 'bg-purple-100 text-purple-600', pos: 'top-8 -left-16' },
@@ -49,20 +60,6 @@ const healthCards = [
   { label: 'Sleep Quality', value: 'Good', color: 'text-blue-500', bg: 'bg-blue-50', icon: Moon },
   { label: 'Energy Level', value: 'High', color: 'text-yellow-500', bg: 'bg-yellow-50', icon: Zap },
   { label: 'Skin Health', value: 'Fair', color: 'text-purple-500', bg: 'bg-purple-50', icon: Sparkles },
-];
-
-const TRENDING = [
-  { slug: 'skin', emoji: '✨', title: 'Skin Problems', desc: 'Acne, pigmentation, dryness & more', badge: '🏆 #1 Best Seller', badgeColor: 'bg-purple-100 text-purple-800', borderTop: 'border-t-purple-500', count: '12,400+', dotColor: 'bg-purple-400', arrowBg: 'bg-purple-100', arrowText: 'text-purple-600' },
-  { slug: 'astrology', emoji: '🔮', title: 'Astrology & Life', desc: 'Kundli, career, relationship guidance', badge: '🔮 Trending', badgeColor: 'bg-pink-100 text-pink-800', borderTop: 'border-t-pink-500', count: '9,800+', dotColor: 'bg-pink-400', arrowBg: 'bg-pink-100', arrowText: 'text-pink-600' },
-  { slug: 'hair', emoji: '💆', title: 'Hair Fall', desc: 'Thinning, breakage, scalp issues', badge: '💚 Most Reviewed', badgeColor: 'bg-green-100 text-green-800', borderTop: 'border-t-green-500', count: '8,200+', dotColor: 'bg-green-400', arrowBg: 'bg-green-100', arrowText: 'text-green-600' },
-];
-
-const OTHER_ISSUES = [
-  { slug: 'stress', emoji: '🧘', label: 'Stress Management', desc: 'Anxiety, burnout', from: 'from-orange-50', to: 'to-red-50', border: 'border-orange-100' },
-  { slug: 'time', emoji: '⏰', label: 'Time Management', desc: 'Productivity, focus', from: 'from-blue-50', to: 'to-cyan-50', border: 'border-blue-100' },
-  { slug: 'weight', emoji: '💪', label: 'Weight & Fitness', desc: 'Weight loss, muscle', from: 'from-red-50', to: 'to-orange-50', border: 'border-red-100' },
-  { slug: 'sleep', emoji: '🌙', label: 'Sleep Issues', desc: 'Insomnia, restlessness', from: 'from-indigo-50', to: 'to-blue-50', border: 'border-indigo-100' },
-  { slug: 'nutrition', emoji: '🥗', label: 'Nutrition & Diet', desc: 'Deficiencies, gut health', from: 'from-teal-50', to: 'to-green-50', border: 'border-teal-100' },
 ];
 
 export default function Home() {
@@ -99,14 +96,21 @@ export default function Home() {
       <div className="flex justify-center items-center gap-3 py-2.5 bg-white/80 backdrop-blur border-b border-purple-100 sticky top-0 z-50">
         <span className="text-xs text-gray-400 font-medium">Choose Language</span>
         <div className="relative">
-          <button onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-md">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-md"
+          >
             <span>{currentLang.native}</span>
             <ChevronDown className="w-3 h-3" />
           </button>
           {showDropdown && (
             <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-purple-100 overflow-hidden z-50 w-44">
               {LANGUAGES.map(l => (
-                <button key={l.code} onClick={() => { setLang(l.code); setShowDropdown(false); }} className={`w-full flex items-center justify-between px-4 py-2.5 text-xs hover:bg-purple-50 transition-all ${lang === l.code ? 'bg-purple-50 text-purple-600 font-bold' : 'text-gray-600'}`}>
+                <button
+                  key={l.code}
+                  onClick={() => { setLang(l.code); setShowDropdown(false); }}
+                  className={`w-full flex items-center justify-between px-4 py-2.5 text-xs hover:bg-purple-50 transition-all ${lang === l.code ? 'bg-purple-50 text-purple-600 font-bold' : 'text-gray-600'}`}
+                >
                   <span>{l.native}</span>
                   <span className="text-gray-400">{l.label}</span>
                 </button>
@@ -231,46 +235,20 @@ export default function Home() {
 
       {/* Issues */}
       <section className="px-8 lg:px-16 py-10 bg-white max-w-[1600px] mx-auto">
-        <div className="mb-8">
-          <div className="text-xs font-bold text-purple-600 uppercase tracking-widest mb-2">🔥 Most Popular</div>
-          <h2 className="text-4xl font-black text-gray-900 mb-2">Trending Reports Right Now</h2>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-purple-500 to-pink-400 rounded mb-2" />
-          <p className="text-gray-400 text-sm">These are our most purchased reports this week</p>
-        </div>
-
-        {/* Trending Top 3 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          {TRENDING.map((issue) => (
-            <div key={issue.slug} onClick={() => navigate(`/questions/${issue.slug}`)} className={`bg-white border border-gray-100 border-t-4 ${issue.borderTop} rounded-3xl p-6 cursor-pointer hover:scale-[1.02] hover:shadow-xl transition-all duration-300 group relative`}>
-              <div className={`inline-block text-xs font-bold px-3 py-1.5 rounded-full mb-4 ${issue.badgeColor}`}>{issue.badge}</div>
-              <div className="text-4xl mb-3">{issue.emoji}</div>
-              <div className="text-lg font-black text-gray-900 mb-1">{issue.title}</div>
-              <div className="text-sm text-gray-400 leading-relaxed mb-4">{issue.desc}</div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${issue.dotColor}`} />
-                <span className="text-xs text-gray-400 font-medium">{issue.count} reports sold</span>
+        <h2 className="text-center text-4xl font-black text-gray-900 mb-3">Choose What You Want To Improve</h2>
+        <div className="w-16 h-1.5 bg-gradient-to-r from-purple-500 to-pink-400 rounded mx-auto mb-10" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {issues.map((issue) => {
+            const Icon = issue.icon;
+            return (
+              <div key={issue.slug} onClick={() => navigate(`/questions/${issue.slug}`)} className={`bg-gradient-to-br ${issue.from} ${issue.to} border ${issue.border} rounded-3xl p-6 flex items-center gap-4 cursor-pointer hover:scale-105 hover:shadow-xl transition-all duration-300 group`}>
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Icon className={`w-7 h-7 ${issue.iconColor}`} />
+                </div>
+                <span className="text-base font-bold text-gray-800 leading-tight">{issue.label}</span>
               </div>
-              <div className={`absolute bottom-5 right-5 w-8 h-8 ${issue.arrowBg} ${issue.arrowText} rounded-full flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform`}>→</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-6">
-          <div className="flex-1 h-px bg-gray-100" />
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">All Categories</span>
-          <div className="flex-1 h-px bg-gray-100" />
-        </div>
-
-        {/* Other 5 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {OTHER_ISSUES.map((issue) => (
-            <div key={issue.slug} onClick={() => navigate(`/questions/${issue.slug}`)} className={`bg-gradient-to-br ${issue.from} ${issue.to} border ${issue.border} rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300 group`}>
-              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{issue.emoji}</div>
-              <div className="text-sm font-black text-gray-800 mb-1">{issue.label}</div>
-              <div className="text-xs text-gray-400">{issue.desc}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
